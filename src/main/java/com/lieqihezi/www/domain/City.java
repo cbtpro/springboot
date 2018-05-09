@@ -1,23 +1,29 @@
 package com.lieqihezi.www.domain;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.domain.Persistable;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
-public class User implements Persistable<String> {
+public class City implements Persistable<String> {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String uuid;
 
     @Column(unique = true, nullable = true)
+    private String code;
+
+    private String en_name;
+
+    @Column(unique = true, nullable = true)
     private String name;
 
-    private int age;
+    private String parentUuid;
 
     public String getUuid() {
         return uuid;
@@ -25,6 +31,22 @@ public class User implements Persistable<String> {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getEn_name() {
+        return en_name;
+    }
+
+    public void setEn_name(String en_name) {
+        this.en_name = en_name;
     }
 
     public String getName() {
@@ -35,12 +57,12 @@ public class User implements Persistable<String> {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public String getParentUuid() {
+        return parentUuid;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setParentUuid(String parentUuid) {
+        this.parentUuid = parentUuid;
     }
 
     @Override

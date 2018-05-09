@@ -25,4 +25,5 @@ public class UserController {
         Map map = userServices.saveUser(user);
         return map;
     }
+
 }

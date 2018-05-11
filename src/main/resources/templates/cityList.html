@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Citys</title>
+</head>
+<body>
+    <h2>Citys</h2>
+    <div th:unless="${#lists.isEmpty(citys)}">
+        <dl th:each="city : ${citys}">
+            <dt class="cityHeadline">
+                <span th:text="${city.name}"></span>
+
+            </dt>
+            <dd class="cityCode">
+                <span th:if="${city.code}" th:text="${city.code}">Code:</span>
+                <span th:if="${city.code eq null}">No Code</span>
+            </dd>
+            <dd class="cityEnName">
+                <span th:if="${city.en_name}" th:text="${city.en_name}">English Name:</span>
+                <span th:if="${city.en_name eq null}">No English Name</span>
+            </dd>
+
+        </dl>
+    </div>
+    <div th:if="${#lists.isEmpty(citys)}">
+        <p>no Result</p>
+    </div>
+    <hr />
+    <h3>Add a City</h3>
+    <form method="POST" action="/api/city/addCity">
+        <label for="code">Code:</label>
+        <input type="text" name="code" />
+        <br />
+        <label for="name">Name:</label>
+        <input type="text" name="name" />
+        <br />
+        <label for="en_name">English Name:</label>
+        <input type="text" name="en_name" />
+        <br />
+        <input type="submit" />
+    </form>
+</body>
+</html>

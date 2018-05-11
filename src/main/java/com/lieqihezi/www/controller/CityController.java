@@ -3,28 +3,43 @@ package com.lieqihezi.www.controller;
 import com.lieqihezi.www.domain.City;
 import com.lieqihezi.www.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import sun.misc.Request;
 
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@Controller
+@RequestMapping(value = "/api/city")
 public class CityController {
 
     @Autowired
     CityService cityServices;
 
-    @GetMapping(value = "allCitys")
-    public List<City> allCitys() {
+    @RequestMapping(value = "/citys", method = RequestMethod.GET)
+    public String allCitys(Model model) {
         List<City> cityList = cityServices.findAllCity();
-        return cityList;
+        if (cityList != null) {
+            model.addAttribute("citys", cityList);
+        }
+        return "cityList";
     };
 
-    @PostMapping(value = "addCity")
-    public Map saveCity(@RequestBody City city) {
-        return cityServices.saveCity(city);
+    @RequestMapping(value = "/addCity", method = RequestMethod.POST)
+    public String addToCityList(City city) {
+        System.out.println(city);
+        cityServices.saveCity(city);
+        return "redirect:/api/city/citys";
+    }
+
+    @RequestMapping(value = "/{city}", method = RequestMethod.GET)
+    public String city(@PathVariable("city") String city, Model model) {
+        List<City> cityList = cityServices.findByName(city);
+        if (cityList != null) {
+            model.addAttribute("citys", cityList);
+        }
+        return "cityList";
     }
 }

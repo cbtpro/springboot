@@ -1,0 +1,8 @@
+spring:
+  profiles: development
+  thymeleaf.cache: false #开发环境关闭thymeleaf的缓存
+---
+
+spring:
+  profiles: production
+  thymeleaf.cache: true

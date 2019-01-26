@@ -1,0 +1,32 @@
+.number {
+	margin: 0 auto;
+	width: auto;
+	font-family: Arial;
+	font-size: 50px;
+	font-weight: bold;
+	text-align: center;
+	height: 50px;
+	line-height: 50px;
+	overflow: hidden;
+}
+.box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.number .cycle {
+	position: relative;
+	width: 30px;
+	display: block;
+	float: left;
+	top: 0;
+	transition: top 0.5s ease;
+}
+.number .cycle-semicolon {
+	position: relative;
+	width: 30px;
+	display: block;
+	float: left;
+	top: 0;
+	transition: top 0.5s ease;
+}

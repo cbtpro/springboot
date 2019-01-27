@@ -7,11 +7,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtil {
 
-	public static boolean storageFile(MultipartFile mpf, String filePath) {
+	public static boolean storageFile(MultipartFile mpf, String filePath, String fileName) {
 
-		File file = new File(filePath);
-		if (!file.getParentFile().exists()) {
-			file.mkdirs();
+		File file = new File(filePath + fileName);
+		File parentFile = file.getParentFile();
+		if (!parentFile.exists()) {
+			parentFile.mkdirs();
 		}
 		try {
 			mpf.transferTo(file);

@@ -1,9 +1,14 @@
 package com.lieqihezi.www.controller;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,11 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.lieqihezi.www.utils.DownloadImageHelper;
 import com.lieqihezi.www.utils.FileUtil;
 import com.lieqihezi.www.utils.ImageUtil;
 
 @RestController
-@RequestMapping(value = "/image")
+@RequestMapping(value = "/api")
 public class ImageUploadController {
 
 	class ImageOfPrimitives {
@@ -43,25 +49,38 @@ public class ImageUploadController {
 		}
 	}
 
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String uploadImage(@RequestBody String imageJson) {
+	@RequestMapping(value = "/image", method = RequestMethod.POST)
+	public ResponseEntity<Map<String,Object>> uploadImage(@RequestBody String imageJson) {
 		Gson gson = new Gson();
 		ImageOfPrimitives image = gson.fromJson(imageJson, ImageOfPrimitives.class);
 		UUID uuid = UUID.randomUUID();
-		String fileName = uuid.toString();
+		String UUID = uuid.toString();
 		MultipartFile mpf = ImageUtil.base64ToMultipart(image.getBase64());
 		String originalfileName = mpf.getOriginalFilename();
 		String fileNameSuffix = originalfileName.substring(originalfileName.lastIndexOf("."), originalfileName.length());
-		String filePath = "D:/" + fileName + fileNameSuffix;
-		boolean isSuccess = FileUtil.storageFile(mpf, filePath);
+		String filePath = "D:/uploads/images/";
+		String fileName = UUID + fileNameSuffix;
+		boolean isSuccess = FileUtil.storageFile(mpf, filePath, fileName);
+		Map<String, Object> result = new HashMap<String, Object>();
+		HttpStatus httpStatus = null;
 		if (isSuccess) {
-			return "success";
+			result.put("imageName", fileName);
+			result.put("message", "上传图片成功");
+			httpStatus = HttpStatus.OK;
+		} else {
+			result.put("imageName", "");
+			result.put("message", "上传图片失败");
+			httpStatus = HttpStatus.BAD_REQUEST;
 		}
-		return "fail";
+		return new ResponseEntity<Map<String,Object>>(result, httpStatus);
 	}
 
-	@RequestMapping(value = "/download/{UUID}", method = RequestMethod.GET)
-	public String downloadImage(@PathVariable("UUID") String UUID) {
+	@RequestMapping(value = "/image/{imageName}", method = RequestMethod.GET)
+	public String downloadImage(@PathVariable("imageName") String imageName, HttpServletRequest request, HttpServletResponse response) {
+		DownloadImageHelper downloadImageHelper = new DownloadImageHelper();
+		String filePath = "D:/uploads/images/";
+		String fileName = imageName;
+		downloadImageHelper.buildImage(request, response, filePath + fileName);
 		return "success";
 	}
 }

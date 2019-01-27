@@ -46,7 +46,13 @@ function screenshot() {
 function updateImage(imageBase64Str) {
 	sendImageToBackend(imageBase64Str).then(response => {
 		downloadImageFromBackend(response.data.imageName)
-		alert(response.data.message);
+		console.log(response.data.message);
+	}, error => {
+		alert(error.response.data.message);
+	})
+	sendImageToQiniu(imageBase64Str).then(response => {
+		downloadImageFromQiniu(response.data.imageName)
+		console.log(response.data.message);
 	}, error => {
 		alert(error.response.data.message);
 	})
@@ -60,6 +66,17 @@ function sendImageToBackend(imageBase64Str) {
 function downloadImageFromBackend(imageName) {
 	var image = new Image();
 	image.src='/api/image/' + imageName;
+	document.body.appendChild(image);
+}
+function sendImageToQiniu(imageBase64Str) {
+	return axios.post("/qiniu/image", {
+ 		base64: imageBase64Str,
+ 		imageType: 'image/jpeg'
+	})
+}
+function downloadImageFromQiniu(imageName) {
+	var image = new Image();
+	image.src='http://res.chenbitao.com/' + imageName;
 	document.body.appendChild(image);
 }
 </script>

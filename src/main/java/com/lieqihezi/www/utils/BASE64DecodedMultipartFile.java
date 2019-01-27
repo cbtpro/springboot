@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 /**
  * 参考 https://stackoverflow.com/questions/18381928/how-to-convert-byte-array-to-multipartfile
+ * https://gist.github.com/luanvuhlu/9d833a832e7ffc2efb13775139d233b3
  */
 import org.springframework.web.multipart.MultipartFile;
 

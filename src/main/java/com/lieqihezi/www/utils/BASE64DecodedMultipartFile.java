@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
+/**
+ * 参考 https://stackoverflow.com/questions/18381928/how-to-convert-byte-array-to-multipartfile
+ */
 import org.springframework.web.multipart.MultipartFile;
 
 public class BASE64DecodedMultipartFile implements MultipartFile {

@@ -31,9 +31,7 @@
 	</div>
 </div>
 <button onclick="screenshot()">截图</button>
-<div id="screenshotCanvasPreview"></div>
 <div id="screenshotPreview"></div>
-<button onclick="updateImage()">上传图片</button>
 </body>
 <script type="text/javascript" src="clock/clock.js"></script>
 <script type="text/javascript" src="3rdparty/html2canvas.min.js"></script>
@@ -41,24 +39,28 @@
 <script type="text/javascript">
 function screenshot() {
 	html2canvas(document.querySelector(".box")).then(canvas => {
-	    document.getElementById('screenshotCanvasPreview').appendChild(canvas)
-	    var image = new Image();
-	    image.id = 'screenshotImage';
-	    image.src = canvas.toDataURL('image/jpeg', 0.8)
-		document.getElementById('screenshotPreview').appendChild(image)
+	    var imageBase64 = canvas.toDataURL('image/jpeg', 0.8)
+		updateImage(imageBase64);
 	});
 }
-function updateImage() {
-	var imageBase64Str = document.getElementById('screenshotImage').src;
+function updateImage(imageBase64Str) {
 	sendImageToBackend(imageBase64Str).then(response => {
-		console.log(response)
+		downloadImageFromBackend(response.data.imageName)
+		alert(response.data.message);
+	}, error => {
+		alert(error.response.data.message);
 	})
 }
 function sendImageToBackend(imageBase64Str) {
- 	return axios.post('/image/upload', {
+ 	return axios.post('/api/image', {
  		base64: imageBase64Str,
  		imageType: 'image/jpeg'
 	});
+}
+function downloadImageFromBackend(imageName) {
+	var image = new Image();
+	image.src='/api/image/' + imageName;
+	document.body.appendChild(image);
 }
 </script>
 </html>

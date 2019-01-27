@@ -10,29 +10,29 @@ import javax.servlet.http.HttpServletResponse;
 public class DownloadImageHelper {
 
 	public String buildImage(HttpServletRequest request, HttpServletResponse response, String path) {
-		ServletOutputStream servetOutputStream = null;
+		ServletOutputStream servletOutputStream = null;
 		try {
 			response.setContentType("image/jpeg");
 			FileInputStream fileInputStream = new FileInputStream(path);
-			servetOutputStream = response.getOutputStream();
+			servletOutputStream = response.getOutputStream();
 			int len = 0;
 			// 创建数据缓冲区
 			byte[] buffer = new byte[1024];
 			// 通过response对象获取outputStream流
-			servetOutputStream = response.getOutputStream();
+			servletOutputStream = response.getOutputStream();
 			// 将FileInputStream流写入到buffer缓冲区
 			while ((len = fileInputStream.read(buffer)) > 0) {
 				// 使用OutputStream将缓冲区的数据输出到浏览器
-				servetOutputStream.write(buffer, 0, len);
+				servletOutputStream.write(buffer, 0, len);
 			}
-			servetOutputStream.flush();
+			servletOutputStream.flush();
 			fileInputStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (servetOutputStream != null) {
+			if (servletOutputStream != null) {
 				try {
-					servetOutputStream.close();
+					servletOutputStream.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

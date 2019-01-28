@@ -1,11 +1,12 @@
 package com.lieqihezi.www.domain;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.data.domain.Persistable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.domain.Persistable;
 
 @Entity
 public class User implements Persistable<String> {

@@ -75,9 +75,11 @@ function sendImageToQiniu(imageBase64Str) {
 	})
 }
 function downloadImageFromQiniu(imageName) {
-	var image = new Image();
-	image.src='http://res.chenbitao.com/' + imageName;
-	document.body.appendChild(image);
+	axios.get('/qiniu/image/url/' + imageName).then(response => {
+		var image = new Image();
+		image.src = response.data.imageUrl;
+		document.body.appendChild(image);
+	})
 }
 </script>
 </html>

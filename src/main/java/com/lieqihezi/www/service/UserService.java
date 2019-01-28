@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface UserService {
 
-    public Map saveUser(User user);
+    public Map<?, ?> saveUser(User user);
 
     public List<User> findByName(String name);
 

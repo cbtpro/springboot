@@ -17,13 +17,14 @@ public class CityServiceImpl implements CityService {
     @Autowired
     CityRepository cityRepository;
     @Transactional
-    public Map saveCity(City city) {
+    public Map<String, Object> saveCity(City city) {
         boolean isExistUser = cityRepository.findByName(city.getName()).size() > 0;
-        Map map = new HashMap();
+        Map<String, Object> map = new HashMap<String, Object>();
         if(isExistUser) {
             map.put("message", "City已经存在!");
         } else {
             City newCity = cityRepository.save(city);
+            map.put("data", newCity);
             map.put("message", "新增City成功!");
         }
         return map;

@@ -20,11 +20,11 @@ public class UserController {
 
     @PostMapping(value = "/addUser")
     @ResponseBody
-    public Map addUser(@RequestParam String name, @RequestParam Integer age) {
+    public Map<?, ?> addUser(@RequestParam String name, @RequestParam Integer age) {
         User user = new User();
         user.setName(name);
         user.setAge(age);
-        Map map = userServices.saveUser(user);
+        Map<?, ?> map = userServices.saveUser(user);
         return map;
     }
 

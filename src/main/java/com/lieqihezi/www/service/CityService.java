@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface CityService {
 
-    public Map saveCity(City city);
+    public Map<?, ?> saveCity(City city);
 
     public List<City> findByName(String name);
 

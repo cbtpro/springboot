@@ -9,9 +9,6 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 
-import java.io.File;
-import java.util.Scanner;
-
 public class Main {
 
 	public static void main(String[] args) {

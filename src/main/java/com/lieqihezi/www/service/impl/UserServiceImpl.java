@@ -17,13 +17,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
     @Transactional
-    public Map saveUser(User user) {
+    public Map<String, Object> saveUser(User user) {
         boolean isExistUser = userRepository.findByName(user.getName()).size() > 0;
-        Map map = new HashMap();
+        Map<String, Object> map = new HashMap<String, Object>();
         if(isExistUser) {
             map.put("message", "用户名已经存在!");
         } else {
             User newUser = userRepository.save(user);
+            map.put("user", newUser);
             map.put("message", "新增用户成功!");
         }
         return map;

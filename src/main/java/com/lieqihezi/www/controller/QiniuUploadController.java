@@ -2,6 +2,7 @@ package com.lieqihezi.www.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -73,5 +74,25 @@ public class QiniuUploadController {
 		String fileName = imageName;
 		downloadImageHelper.buildImage(request, response, filePath + fileName);
 		return "success";
+	}
+	
+	@RequestMapping(value = "/image/url/{imageName}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getImageUrl(@PathVariable("imageName") String imageName) {
+		String imageUrl = null;
+		Map<String, Object> result = new HashMap<String, Object>();
+		HttpStatus httpStatus = null;
+		try {
+			imageUrl = QiniuHelper.getFinalUrl(imageName);
+			result.put("imageUrl", imageUrl);
+			result.put("message", "获取图片地址成功");
+			httpStatus = HttpStatus.OK;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			result.put("imageUrl", "");
+			result.put("message", "获取图片地址失败");
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		return new ResponseEntity<Map<String,Object>>(result, httpStatus);
 	}
 }
